@@ -6,7 +6,8 @@
 `trellism4_extended`
 ================================================================================
 
-CircuitPython library to extended Adafruit NeotrellisM4 board with two Neotrellis seesaw boards (or more !).
+CircuitPython library to extended Adafruit NeotrellisM4 board with two Neotrellis seesaw
+boards (or more !).
 
 
 * Author(s): arofarn
@@ -27,8 +28,6 @@ Implementation Notes
   https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases
 
 """
-
-# imports
 
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/arofarn/CircuitPython_TrellisM4_extended.git"
@@ -160,7 +159,12 @@ class _TrellisKeypad:
 
 
 class NeoTrellisM4:
-    """Driver for the Adafruit NeoTrellis."""
+    """Driver for the Adafruit NeoTrellis.
+
+    :param left_part : if None (or ommitted) the class create a
+    neotrellis.multitrellis-compatible object for the right half of the
+    TrellisM4 board. Else for the left part.
+    """
 
     EDGE_HIGH = const(0)
     EDGE_LOW = const(1)
@@ -188,15 +192,15 @@ class NeoTrellisM4:
 
     @property
     def interrupt_enabled(self):
-        """Only for compatibility with neotrellis module
-        interrupts are disable on trellis M4 keypad"""
+        """Only for compatibility with neotrellis module:
+        Interrupts are disable on trellis M4 keypad"""
         return False
 
     # pylint: disable=unused-argument, no-self-use
     @interrupt_enabled.setter
     def interrupt_enabled(self, value):
-        """Only for compatibility with neotrellis module
-        interrupts are disable on trellis M4 keypad
+        """Only for compatibility with neotrellis module:
+        Interrupts are disable on trellis M4 keypad
         """
         print("Warning: no interrupt with Trellis M4 keypad (method does nothing)")
     # pylint: enable=unused-argument, no-self-use
@@ -217,8 +221,11 @@ class NeoTrellisM4:
     # pylint: enable=unused-argument, no-self-use
 
     def set_event(self, key, edge, enable):
-        """Set event on a key
-        """
+        """Control which kinds of events are set
+        :param int key: The key number
+        :param int edge: The type of event
+        :param bool enable: True to enable the event, False to disable it"""
+
         if enable not in (True, False):
             raise ValueError("event enable must be True or False")
         if edge > 3 or edge < 0:
@@ -231,14 +238,16 @@ class NeoTrellisM4:
             self._events[key] = self._events[key] & (0xF ^ (1 << edge))
 
     def read_keypad(self, num):
-        """Give the n events in the keypad buffer
-        """
+        """Read data from the keypad
+        :param int num: The number of bytes to read"""
+
         while num > len(self._current_events):
             self._current_events.append(0xFF)
         return self._current_events[:num]
 
     def _read_keypad(self):
-        """Read keypad and update _key_edges and _current_events"""
+        """Read keypad and update _key_edges and _current_events
+        """
         pressed = set(self.keypad.pressed_keys)
         #default : not pressed => EDGE_HIGH
         self._key_edges = [self.EDGE_HIGH] * _NEO_TRELLIS_NUM_KEYS
@@ -259,19 +268,21 @@ class NeoTrellisM4:
 
 
     def activate_key(self, key, edge, enable=True):
-        """Activate or deactivate a key on the trellis. Key is the key number from
-           0 to 15. Edge specifies what edge to register an event on and can be
-           NeoTrellis.EDGE_FALLING or NeoTrellis.EDGE_RISING. enable should be set
-           to True if the event is to be enabled, or False if the event is to be
-           disabled.
-           """
+        """Activate or deactivate a key on the trellis.
+
+        : param key : key number from 0 to 16.
+        : param edge : specifies what edge to register an event on and can be
+        NeoTrellis.EDGE_FALLING or NeoTrellis.EDGE_RISING.
+        : param enable : should be set to True if the event is to be enabled,
+        or False if the event is to be disabled.
+        """
         self.set_event(key, edge, enable)
 
 
     def sync(self):
         """Read any events from the Trellis hardware and call associated
-           callbacks
-           """
+        callbacks
+        """
         available = self.count
         if available > 0:
             available = available + 2
