@@ -293,9 +293,9 @@ class NeoTrellisM4:
 
         :param int key : key number from 0 to 16.
         :param int edge : specifies what edge to register an event on and can be
-           NeoTrellis.EDGE_FALLING or NeoTrellis.EDGE_RISING.
+        NeoTrellis.EDGE_FALLING or NeoTrellis.EDGE_RISING.
         :param bool enable : should be set to True if the event is to be enabled,
-           or False if the event is to be disabled.
+        or False if the event is to be disabled.
         """
         self.set_event(key, edge, enable)
 
