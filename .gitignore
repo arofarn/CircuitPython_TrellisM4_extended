@@ -17,6 +17,3 @@ dist
 **/*.egg-info
 .vscode
 *~
-/8x8_enclosure/tm4ext_lasercut_full.svg
-/8x8_enclosure/tm4ext_lasercut_full.svg.licence
-/8x8_enclosure/trellism4_extended.FCStd
