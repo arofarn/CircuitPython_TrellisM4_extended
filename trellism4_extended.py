@@ -163,13 +163,12 @@ class _TrellisKeypad:
 
 class NeoTrellisM4:
     """
-    Driver for the Adafruit NeoTrellis.
-
+    Driver for the Adafruit NeoTrellis
     :param left_part: if None (or ommitted) the class create a
     neotrellis.multitrellis-compatible object for the left half of the
     TrellisM4 board. Else le right part is created and the arguement
     should be the left part object.
-
+    Example:
     .. code-block:: python
 
         from neotrellism4 import NeoTrellisM4
@@ -235,7 +234,6 @@ class NeoTrellisM4:
     def set_event(self, key, edge, enable):
         """
         Control which kinds of events are set
-
         :param int key: the key number
         :param int edge: the type of event
         :param bool enable: True to enable the event, False to disable it
@@ -255,7 +253,6 @@ class NeoTrellisM4:
     def read_keypad(self, num):
         """
         Read data from the keypad
-
         :param int num: The number of bytes to read
         """
 
