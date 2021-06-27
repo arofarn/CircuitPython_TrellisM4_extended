@@ -165,10 +165,12 @@ class NeoTrellisM4:
     """
     Driver for the Adafruit NeoTrellis.
 
-    :param left_part: if None (or ommitted) the class create a
-    neotrellis.multitrellis-compatible object for the left half of the
-    TrellisM4 board. Else le right part is created and the arguement
-    should be the left part object.
+    :param left_part: None (default) or left part object
+
+    .. note:: if None (or ommitted) the class create a
+      neotrellis.multitrellis-compatible object for the left half of the
+      TrellisM4 board. Else the right part is created and the arguement should
+      be the left part object.
 
     Example:
 
