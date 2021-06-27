@@ -165,8 +165,15 @@ class NeoTrellisM4:
     """
     Driver for the Adafruit NeoTrellis.
     :param left_part: if None (or ommitted) the class create a
-    neotrellis.multitrellis-compatible object for the right half of the
-    TrellisM4 board. Else for the left part.
+    neotrellis.multitrellis-compatible object for the left half of the
+    TrellisM4 board. Else le right part is created and the arguement
+    should be the left part object.
+
+    .. code-block:: python
+
+        from neotrellism4 import NeoTrellisM4
+        trellis_left = NeoTrellisM4()
+        trellis_right = NeoTrellisM4(left_part=trellis_left)
     """
 
     EDGE_HIGH = const(0)
