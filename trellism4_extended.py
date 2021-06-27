@@ -162,9 +162,9 @@ class _TrellisKeypad:
 
 
 class NeoTrellisM4:
-    """Driver for the Adafruit NeoTrellis.
-
-    :param left_part : if None (or ommitted) the class create a
+    """
+    Driver for the Adafruit NeoTrellis.
+    :param left_part: if None (or ommitted) the class create a
     neotrellis.multitrellis-compatible object for the right half of the
     TrellisM4 board. Else for the left part.
     """
@@ -225,9 +225,10 @@ class NeoTrellisM4:
     # pylint: enable=unused-argument, no-self-use
 
     def set_event(self, key, edge, enable):
-        """Control which kinds of events are set
-        :param int key: The key number
-        :param int edge: The type of event
+        """
+        Control which kinds of events are set
+        :param int key: the key number
+        :param int edge: the type of event
         :param bool enable: True to enable the event, False to disable it"""
 
         if enable not in (True, False):
@@ -242,7 +243,8 @@ class NeoTrellisM4:
             self._events[key] = self._events[key] & (0xF ^ (1 << edge))
 
     def read_keypad(self, num):
-        """Read data from the keypad
+        """
+        Read data from the keypad
         :param int num: The number of bytes to read"""
 
         while num > len(self._current_events):
@@ -270,19 +272,19 @@ class NeoTrellisM4:
                 self._current_events.append(raw_evt)
 
     def activate_key(self, key, edge, enable=True):
-        """Activate or deactivate a key on the trellis.
-
-        : param key : key number from 0 to 16.
-        : param edge : specifies what edge to register an event on and can be
+        """
+        Activate or deactivate a key on the trellis.
+        :param int key : key number from 0 to 16.
+        :param int edge : specifies what edge to register an event on and can be
         NeoTrellis.EDGE_FALLING or NeoTrellis.EDGE_RISING.
-        : param enable : should be set to True if the event is to be enabled,
+        :param bool enable : should be set to True if the event is to be enabled,
         or False if the event is to be disabled.
         """
         self.set_event(key, edge, enable)
 
     def sync(self):
-        """Read any events from the Trellis hardware and call associated
-        callbacks
+        """
+        Read any events from the Trellis hardware and call associated callbacks.
         """
         available = self.count
         if available > 0:
