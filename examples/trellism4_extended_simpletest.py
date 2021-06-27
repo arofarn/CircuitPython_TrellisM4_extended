@@ -22,8 +22,10 @@ I2C = busio.I2C(SCL, SDA)
 
 trellim4_left = NeoTrellisM4()
 trellim4_right = NeoTrellisM4(left_part=trellim4_left)
-trelli = [[trellim4_left, trellim4_right],
-            [NeoTrellis(I2C, False, addr=0x2F), NeoTrellis(I2C, False, addr=0x2E)]]
+trelli = [
+    [trellim4_left, trellim4_right],
+    [NeoTrellis(I2C, False, addr=0x2F), NeoTrellis(I2C, False, addr=0x2E)],
+]
 
 trellis = MultiTrellis(trelli)
 
@@ -46,6 +48,7 @@ def blink(xcoord, ycoord, edge):
     elif edge == NeoTrellis.EDGE_FALLING:
         trellis.color(xcoord, ycoord, OFF)
 
+
 for y in range(8):
     for x in range(8):
         # activate rising edge events on all keys
@@ -55,14 +58,14 @@ for y in range(8):
         trellis.activate_key(x, y, NeoTrellis.EDGE_FALLING)
         trellis.set_callback(x, y, blink)
         trellis.color(x, y, PURPLE)
-        time.sleep(.05)
+        time.sleep(0.05)
 
 for y in range(8):
     for x in range(8):
         trellis.color(x, y, OFF)
-        time.sleep(.05)
+        time.sleep(0.05)
 
 while True:
     # the trellis can only be read every 17 millisecons or so
     trellis.sync()
-    time.sleep(.02)
+    time.sleep(0.02)

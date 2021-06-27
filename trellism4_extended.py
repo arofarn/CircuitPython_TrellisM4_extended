@@ -52,24 +52,29 @@ _TRELLISM4_RIGHT_PART = const(4)
 
 
 def _key(xval):
-    return int(int(xval/4)*8 + (xval%4))
+    return int(int(xval / 4) * 8 + (xval % 4))
+
 
 def _seesaw_key(xval):
-    return int(int(xval/8)*4 + (xval%8))
+    return int(int(xval / 8) * 4 + (xval % 8))
+
 
 def _to_seesaw_key(xval):
     return int(xval + (xval // 4) * 4)
 
 
 class _TrellisNeoPixel:
-    """Neopixel driver
-    """
+    """Neopixel driver"""
+
     # Lots of stuff come from Adafruit_CircuitPython_seesaw/neopixel.py
 
-    def __init__(self, auto_write=True, brightness=1.0,
-                 part=_TRELLISM4_LEFT_PART, left_part=None):
+    def __init__(
+        self, auto_write=True, brightness=1.0, part=_TRELLISM4_LEFT_PART, left_part=None
+    ):
         if part == _TRELLISM4_LEFT_PART:
-            self.pix = NeoPixel(board.NEOPIXEL, 32, auto_write=False, brightness=brightness)
+            self.pix = NeoPixel(
+                board.NEOPIXEL, 32, auto_write=False, brightness=brightness
+            )
         elif part == _TRELLISM4_RIGHT_PART:
             self.pix = left_part.pix
         self.auto_write = auto_write
@@ -84,8 +89,7 @@ class _TrellisNeoPixel:
         return self.pix[_key(key) + self._offset]
 
     def fill(self, color):
-        """Fill method wrapper
-        """
+        """Fill method wrapper"""
         # Suppress auto_write while filling.
         current_auto_write = self.auto_write
         self.auto_write = False
@@ -96,8 +100,7 @@ class _TrellisNeoPixel:
         self.auto_write = current_auto_write
 
     def show(self):
-        """Fill method wrapper
-        """
+        """Fill method wrapper"""
         self.pix.show()
 
 
@@ -130,7 +133,7 @@ class _TrellisKeypad:
             row = []
             for x in range(4):
                 row.append(4 * x + y)
-            key_names.append(row)    # Keys of each halves is numbered from 0-15
+            key_names.append(row)  # Keys of each halves is numbered from 0-15
 
         self._matrix = Matrix_Keypad(col_pins, self.row_pins, key_names)
 
@@ -178,15 +181,16 @@ class NeoTrellisM4:
             self.keypad = _TrellisKeypad()
         else:
             self._offset = _TRELLISM4_RIGHT_PART
-            self.pixels = _TrellisNeoPixel(32,
-                                           part=_TRELLISM4_RIGHT_PART,
-                                           left_part=left_part.pixels)
-            self.keypad = _TrellisKeypad(part=_TRELLISM4_RIGHT_PART,
-                                         row_pins=left_part.keypad.row_pins)
+            self.pixels = _TrellisNeoPixel(
+                32, part=_TRELLISM4_RIGHT_PART, left_part=left_part.pixels
+            )
+            self.keypad = _TrellisKeypad(
+                part=_TRELLISM4_RIGHT_PART, row_pins=left_part.keypad.row_pins
+            )
 
         self._events = [0] * _NEO_TRELLIS_NUM_KEYS
         self._current_press = set()
-        self._key_edges = [self.EDGE_HIGH] * _NEO_TRELLIS_NUM_KEYS     # Keys edges
+        self._key_edges = [self.EDGE_HIGH] * _NEO_TRELLIS_NUM_KEYS  # Keys edges
         self._current_events = bytearray()
         self.callbacks = [None] * 16
 
@@ -203,21 +207,21 @@ class NeoTrellisM4:
         Interrupts are disable on trellis M4 keypad
         """
         print("Warning: no interrupt with Trellis M4 keypad (method does nothing)")
+
     # pylint: enable=unused-argument, no-self-use
 
     @property
     def count(self):
-        """Return the pressed keys count
-        """
+        """Return the pressed keys count"""
         self._read_keypad()
         return len(self._current_events)
 
     # pylint: disable=unused-argument, no-self-use
     @count.setter
     def count(self, value):
-        """Only for compatibility with neotrellis module
-        """
+        """Only for compatibility with neotrellis module"""
         raise AttributeError("count is read only")
+
     # pylint: enable=unused-argument, no-self-use
 
     def set_event(self, key, edge, enable):
@@ -246,10 +250,9 @@ class NeoTrellisM4:
         return self._current_events[:num]
 
     def _read_keypad(self):
-        """Read keypad and update _key_edges and _current_events
-        """
+        """Read keypad and update _key_edges and _current_events"""
         pressed = set(self.keypad.pressed_keys)
-        #default : not pressed => EDGE_HIGH
+        # default : not pressed => EDGE_HIGH
         self._key_edges = [self.EDGE_HIGH] * _NEO_TRELLIS_NUM_KEYS
         for k in pressed:
             self._key_edges[k] = self.EDGE_LOW
@@ -266,7 +269,6 @@ class NeoTrellisM4:
                 raw_evt = (_to_seesaw_key(k) << 2) | self._key_edges[k]
                 self._current_events.append(raw_evt)
 
-
     def activate_key(self, key, edge, enable=True):
         """Activate or deactivate a key on the trellis.
 
@@ -278,7 +280,6 @@ class NeoTrellisM4:
         """
         self.set_event(key, edge, enable)
 
-
     def sync(self):
         """Read any events from the Trellis hardware and call associated
         callbacks
@@ -289,5 +290,8 @@ class NeoTrellisM4:
             buf = self.read_keypad(available)
             for raw in buf:
                 evt = KeyEvent(_seesaw_key((raw >> 2) & 0x3F), raw & 0x3)
-                if evt.number < _NEO_TRELLIS_NUM_KEYS and self.callbacks[evt.number] is not None:
+                if (
+                    evt.number < _NEO_TRELLIS_NUM_KEYS
+                    and self.callbacks[evt.number] is not None
+                ):
                     self.callbacks[evt.number](evt)
