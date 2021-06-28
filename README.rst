@@ -41,6 +41,8 @@ This is easily achieved by downloading the `Adafruit library and driver bundle <
 Usage Example
 =============
 
+`How to solder boards together <https://circuitpython-trellism4_extended.readthedocs.io/soldering.html>`_
+
 To use Trellis as 2 Neotrellis (seesaw):
 
 .. code-block:: python3

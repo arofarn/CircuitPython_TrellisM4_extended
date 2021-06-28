@@ -11,6 +11,12 @@ Table of Contents
     self
 
 .. toctree::
+    :caption: Soldering boards
+
+    soldering
+
+
+.. toctree::
     :caption: Examples
 
     examples
