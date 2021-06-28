@@ -12,8 +12,8 @@ Introduction
     :alt: Discord
 
 
-.. image:: https://github.com/arofarn/CircuitPython_Org_TrellisM4_extended/workflows/Build%20CI/badge.svg
-    :target: https://github.com/arofarn/CircuitPython_Org_TrellisM4_extended/actions
+.. image:: https://github.com/arofarn/CircuitPython_TrellisM4_extended/workflows/Build%20CI/badge.svg
+    :target: https://github.com/arofarn/CircuitPython_TrellisM4_extended/actions
     :alt: Build Status
 
 
@@ -41,7 +41,7 @@ This is easily achieved by downloading the `Adafruit library and driver bundle <
 Usage Example
 =============
 
-`How to solder boards together <https://circuitpython-trellism4_extended.readthedocs.io/soldering.html>`_
+`How to solder boards together <https://circuitpython-trellism4-extended.readthedocs.io/en/latest/soldering.html>`_
 
 To use Trellis as 2 Neotrellis (seesaw):
 
