@@ -70,6 +70,12 @@ To use TrellisM4 tilled with Neotrellis (seesaw):
     trellis = MultiTrellis(trelli)
 
 
+Documentation
+=============
+
+https://circuitpython-trellism4-extended.readthedocs.io/en/latest/
+
+
 Contributing
 ============
 
@@ -77,7 +83,4 @@ Contributions are welcome! Please read our `Code of Conduct
 <https://github.com/arofarn/CircuitPython_Org_TrellisM4_extended/blob/HEAD/CODE_OF_CONDUCT.md>`_
 before contributing to help this project stay welcoming.
 
-Documentation
-=============
 
-<https://readthedocs.org/projects/circuitpython-neotrellism4/>
